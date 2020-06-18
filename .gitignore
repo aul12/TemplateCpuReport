@@ -1,0 +1,16 @@
+*.aux
+*.log
+*.pdf
+*.eps
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.swp
+*.toc
+*.bbl
+*.blg
+*.toc
+*.out
+*.xml
+main-blx.bib
+*/.DS_Store
