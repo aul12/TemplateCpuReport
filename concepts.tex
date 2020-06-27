@@ -1,1 +1,55 @@
 %2. Wie bin ich generell da ran gegangen? Was für Konzepte habe ich mir überlegt, welche Strukturen, patterns...
+\subsection{Template Specialization}
+Metaprogramming in C++ is primarily based on the concept of template-specializiation: for a specific template instantiation
+a conrete implementation of the class or function can be given. This makes it possible to implement control structures
+using the type system. 
+
+Listing \ref{lst:template_specialization} implements a logical not using structs-template with specialization.
+\todo{Disclaimer ! geht auch}
+
+\lstinputlisting[caption={Template specialization}, label=lst:template_specialization]{template_specialization.cpp}
+
+For struct- and class-templates, but not for functions-templates, it is also possible to do partial template 
+specialization, if a struct of class depends on more than one type or value a specialization is allowed to define
+only a subset of the arguments and leave other arguments as template arguments. Listing
+\ref{lst:partial_template_specialization} uses partial template specialization to define a struct template which
+behaves similar to \lstinline{std::enable_if}: if the first argument is true the class defines a type, if the
+argument is false this type is not defined.
+
+\lstinputlisting[caption={Partial template specialization}, label=lst:partial_template_specialization]
+    {partial_template_specialization.cpp}
+
+\subsection{Compile-Time Datatypes}
+For implementing algorithms it is not only necessary to be able to implement the program logic and control flow
+it is equally important to define data types to work with. When implementing a CPU emulator the required data type
+is primarily a sequential container for representing registers, memory and the program itself. 
+As the STL does not provide any data types suitable for compile time manipulation a custom container had to be implemented.
+
+The implementation of the sequential container is based on singly linked list. 
+This not the obvious choice when implementing sequential containers but array manipulation is not possible during 
+compile time, thus a different implementation of a sequential container had to be chosen.
+
+The definition of the list is similar to a typical singly linked list definition in normal run-time C++. Every
+element consists of a value and the next element, for the last element the next element is of type \lstinline{ListEnd}.
+Listing \ref{lst:typelist} is the definition of the type list, that is a list in which every element is a type, not
+a value. This type of list is used for the program of the CPU emulator, as the instructions are types not values.
+
+\lstinputlisting[caption={Type List}, label={lst:typelist}]{type_list.cpp}
+
+Building upon the type list we can define a value list as a type list of \lstinline{ValueContainer}s. Listing
+\ref{lst:valuecontainer} gives the definition of the value container struct. This struct contains a value but
+is a type itself, thus a type list can be used. This scheme makes it possible to reuse most of the type list
+implementation for the value list.
+
+\lstinputlisting[caption={Value Container}, label={lst:valuecontainer}]{value_container.cpp}
+
+
+\todo[inline]{Helper Functions}
+
+\subsection{Concepts}
+\todo[inline]{Motivation}
+
+\todo[inline]{Usage}
+
+\subsection{Limitations}
+\todo[inline]{Max Depth}

@@ -39,6 +39,19 @@ BCOR15mm               % Bindekorrektur
 \setcounter{tocdepth}{3}      % ist Standard
 
 \usepackage{listings}
+\lstset{language=C++,
+        basicstyle=\ttfamily,
+        keywordstyle=\color{blue}\ttfamily,
+        stringstyle=\color{red}\ttfamily,
+        commentstyle=\color{magenta}\ttfamily,
+        morecomment=[l][\color{green}]{\#},
+        breaklines=true,
+        numbers=left,
+        stepnumber=1,
+        morekeywords={constexpr}
+}
+
+
 \usepackage{todonotes}
 
 \newcommand{\fullname}{Paul Nykiel}
