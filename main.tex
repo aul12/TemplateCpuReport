@@ -13,44 +13,34 @@ BCOR15mm               % Bindekorrektur
 \pagestyle{headings}
 \usepackage{blindtext}
 
-% für Texte in deutscher Sprache
-%\usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-% Helvetica als Standard-Dokumentschrift
 \usepackage[scaled]{helvet}
 \renewcommand{\familydefault}{\sfdefault} 
 
 \usepackage{graphicx}
 
-% Literaturverzeichnis mit BibLKaTeX
-%\usepackage[babel,german=quotes]{csquotes}
 \usepackage{csquotes}
 \usepackage[backend=bibtex8]{biblatex}
 \bibliography{bibliography}
 
-% Für Tabellen mit fester Gesamtbreite und variabler Spaltenbreite
 \usepackage{tabularx} 
 
-% Besondere Schriftauszeichnungen
 \usepackage{url}              % \url{http://...} in Schreibmaschinenschrift
 \usepackage{color}            % zum Setzen farbigen Textes
 
 \usepackage{amssymb, amsmath} % Pakete für Mathe-Umgebungen und -Symbole
 
 \usepackage{setspace}         % Paket für div. Abstände, z.B. ZA
-%\onehalfspacing              % nur dann, wenn gefordert; ist sehr groß!!
 \setlength{\parindent}{0pt}   % kein linker Einzug der ersten Absatzzeile
 \setlength{\parskip}{1.4ex plus 0.35ex minus 0.3ex} % Absatzabstand, leicht variabel
 
-% Tiefe, bis zu der Überschriften in das Inhaltsverzeichnis kommen
 \setcounter{tocdepth}{3}      % ist Standard
 
-% Beispiele für Quellcode
 \usepackage{listings}
+\usepackage{todonotes}
 
-% hier Namen etc. einsetzen
 \newcommand{\fullname}{Paul Nykiel}
 \newcommand{\email}{paul.nykiel@uni-ulm.de}
 \newcommand{\titel}{Advanced Concepts of Metaprogramming for the Implementation of a CPU Emulator Using Templates}
@@ -59,7 +49,7 @@ BCOR15mm               % Bindekorrektur
 \newcommand{\gutachter}{Dr.\,Borchert}
 
 % hier die Fakultät auswählen
-\newcommand{\fakultaet}{Ingenieurwissenschaften, Informatik und\\Psychologie}
+\newcommand{\fakultaet}{Mathematik und Wirtschaftswissenschaften}
 
 % hier das Institut einsetzen
 \newcommand{\institut}{Institut für Numerische Mathematik}
@@ -149,15 +139,16 @@ along with this program.  If not, see \href{https://www.gnu.org/licenses}{https:
 \newpage
 
 \section{Problem Statement}
-%1. Was ist das Problem / die Aufgabe
+\input{problem.tex}
+
 \section{Concepts}
-%2. Wie bin ich generell da ran gegangen? Was für Konzepte habe ich mir überlegt, welche Strukturen, patterns...
+\input{concepts.tex}
 
 \section{Implementation}
-%3. Dann natürlich die Lösung vorstellen, gerne auch interessante Code-Schnipsel zeigen
+\input{impl.tex}
 
 \section{Conclusion}
-%4. Ausblick, was könnte man erweitern (warum ist das idealerweise einfach? => Weil dein code halt so krass gut aufgebaut ist...), oder auch anders machen?
+\input{conclusion.tex}
 
 \newpage
 \appendix
