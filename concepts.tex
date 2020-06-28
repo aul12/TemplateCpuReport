@@ -7,7 +7,7 @@ using the type system.
 Listing \ref{lst:template_specialization} implements a logical not using structs-template with specialization.
 \todo{Disclaimer ! geht auch}
 
-\lstinputlisting[caption={Template specialization}, label=lst:template_specialization]{template_specialization.cpp}
+\lstinputlisting[caption={Template specialization}, label=lst:template_specialization]{code/template_specialization.cpp}
 
 For struct- and class-templates, but not for functions-templates, it is also possible to do partial template 
 specialization, if a struct of class depends on more than one type or value a specialization is allowed to define
@@ -17,7 +17,7 @@ behaves similar to \lstinline{std::enable_if}: if the first argument is true the
 argument is false this type is not defined.
 
 \lstinputlisting[caption={Partial template specialization}, label=lst:partial_template_specialization]
-    {partial_template_specialization.cpp}
+    {code/partial_template_specialization.cpp}
 
 \subsection{Compile-Time Data Types}
 For implementing algorithms it is not only necessary to be able to implement the program logic and control flow
@@ -34,22 +34,92 @@ element consists of a value and the next element, for the last element the next 
 Listing \ref{lst:typelist} is the definition of the type list, that is a list in which every element is a type, not
 a value. This type of list is used for the program of the CPU emulator, as the instructions are types not values.
 
-\lstinputlisting[caption={Type List}, label={lst:typelist}]{type_list.cpp}
+\lstinputlisting[caption={Type List}, label={lst:typelist}]{code/type_list.cpp}
 
 Building upon the type list we can define a value list as a type list of \lstinline{ValueContainer}s. Listing
 \ref{lst:valuecontainer} gives the definition of the value container struct. This struct contains a value but
 is a type itself, thus a type list can be used. This scheme makes it possible to reuse most of the type list
 implementation for the value list.
 
-\lstinputlisting[caption={Value Container}, label={lst:valuecontainer}]{value_container.cpp}
+\lstinputlisting[caption={Value Container}, label={lst:valuecontainer}]{code/value_container.cpp}
 
+Additionally a set of structs have been defined to handle compile time lists. These structs behave during compile time like 
+functions behave during run time. 
 
-\todo[inline]{Helper Functions}
+The first struct, and the simplest to understand is the \lstinline{Size} struct, this
+struct has a member \lstinline{val} which returns the length of the list, similar to 
+\lstinline{std::size} for STL containers. The implementation is based on recursively 
+walking the list until next is of type \lstinline{ListEnd}. The implementation is given
+in Listing \ref{lst:size}.
+
+\lstinputlisting[caption=Size, label={lst:size}]{code/size.cpp}
+
+The second important struct for handling type lists is the \lstinline{GetType} struct,
+this struct can be used to get the type at a an index. Based on the \lstinline{GetType}
+struct there is also a \lstinline{GetVal} struct for getting the value at an index of
+a value list. The \lstinline{GetType} struct defines type which contains the type
+at the given index. The implementation, given in Listing \ref{lst:get}, 
+is recursive, similar to the implementation of \lstinline{Size}.
+
+\lstinputlisting[caption={Get Type}, label={lst:get}]{code/get.cpp}
+
+To manipulate the list a \lstinline{SetType} struct is provided to change the type at 
+a given index. As types are immutable and can not be changed once created this struct
+does not change the original type but creates a new type. The implementation, given
+in Listing \ref{lst:set}, is once again recursive: 
+the struct recursively walks the list until it reaches the given index. The
+type at this position is then replaced by the new type. For this a helper struct for 
+prepending types into the list is used.
+The implementation simply creates a new list with the new type as first element
+and the old list as the next elements. The implementation of prepend is given
+in Listing \ref{lst:prepend}.
+
+\lstinputlisting[caption={Set Type}, label={lst:set}]{code/set.cpp}
+
+\lstinputlisting[caption={Prepend}, label={lst:prepend}]{code/prepend.cpp}
 
 \subsection{Concepts}
-\todo[inline]{Motivation}
+In the struct definitions above many of the template type arguments can not be arbitrary
+but are required to be of another template class or fullfil other criteria. In pre C++20
+such limitations would be enforced by using type traits and the substitution failure is 
+not an error (SFINAE) pattern.
+Starting with C++20 there a new mechanism for defining type traits is added: concepts \todo{cite}.
+While concepts do not provide features more features than SFINAE
+they make the syntax more readable and shorter; additionally they enable the compiler to
+generate better error messages.
 
-\todo[inline]{Usage}
+The complete implementation of the CPU emulator is based on templates, thus it is especially important to be able to guarantee strong typing, even during the compile time. For this
+concepts have been widely used for the implementation of the emulator.
+
+Especially when working with compile time lists the added type safety of concepts is
+beneficial. Consider the implemetation of \lstinline{Size} (Listing \ref{lst:size}).
+If the template argument is not either a template instantiation of a type list or 
+\lstinline{ListEnd} the compiler will throw a error as \lstinline{T::next} is not
+defined. From this error it is not directly obvious that the problem is the wrong
+argument. To enable the usage of concepts for type list first the relevant concepts
+need to be defined. The most important concept is the \lstinline{type_list} concept,
+it defines wheter an type is a valid type list.
+
+The implementation is given in Listing \ref{lst:concept}: first a struct template with
+a single member is defined. The member is only true if the argument is a valid type list.
+This struct is then used for the definition of the concept.
+
+\lstinputlisting[caption={Implementation of a concept}, label={lst:concept}]{code/concepts.cpp}
+
+The name of the concept can then be used instead of the \lstinline{typename} keyword 
+in the template parameter declaration to  signal that the type has to fullfil the concept. 
+
+For the size struct the adapted definition is given in Listing \ref{lst:size_concepts}. The compiler is know able to directly print an error if a type does not fullfil the concept.
+The other structs can be adapted analogously.
+\lstinputlisting[caption={Size using concepts}, label={lst:size_concepts}]{code/size_concepts.cpp}
 
 \subsection{Limitations}
-\todo[inline]{Max Depth}
+The C++ standard recommends a maximum supported template instantiation depth of 1024.
+Both GCC and Clang implement this recommendation but can be configured 
+(using the \texttt{-ftemplate-depth} flag) to use different values. But even with
+this flag the practiacal limitations is at about 10000, with this maximum depth
+GCC requires approximatly 40GB of memory when compiling a list of said length, Clang will
+crash without a proper error message.
+
+As a result both the memory and program size are limited when using the CPU emulator,
+thus certain programs can not be executed.
