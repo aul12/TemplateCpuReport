@@ -68,15 +68,9 @@ a given index. As types are immutable and can not be changed once created this s
 does not change the original type but creates a new type. The implementation, given
 in Listing \ref{lst:set}, is once again recursive: 
 the struct recursively walks the list until it reaches the given index. The
-type at this position is then replaced by the new type. For this a helper struct for 
-prepending types into the list is used.
-The implementation simply creates a new list with the new type as first element
-and the old list as the next elements. The implementation of prepend is given
-in Listing \ref{lst:prepend}.
+type at this position is then replaced by the new type. 
 
 \lstinputlisting[caption={Set Type}, label={lst:set}]{code/set.cpp}
-
-\lstinputlisting[caption={Prepend}, label={lst:prepend}]{code/prepend.cpp}
 
 \subsection{Concepts}
 In the struct definitions above many of the template type arguments can not be arbitrary
