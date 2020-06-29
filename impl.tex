@@ -4,17 +4,19 @@
 For the emulation the most important data structure is the CPU state. The state consists of the program, the registers,
 the memory and the program counter among others. During each CPU state the next state is determined based on the 
 current state and the current instruction.
+The emulator terminates once the program counter is equal to the length of the program,
+the emulator then returns a result containing the program counter, the current content
+of the registers and the content of the memory.
 
 The program, the registers and the memory are all defined using  compile time lists.
 For the program the list is a type list as the instructions are represented by different
-types. The registers is a value list, the value type can be configured (see the
+types. The registers are a value list, the value type can be configured (see the
 \texttt{config.hpp} header), and is \lstinline{int} by default. The registers are not
-accessed directly using indizes in the list, but via an enum class which provides
+accessed directly using indizes, but via an enum class which provides
 more readable names for the registers. The memory is a value list with the same type
 as the registers to avoid problems related to conversions. The size of the memory
-can be configured, depending on the needs but the limitations of the compiler 
+can be configured, depending on the requirements but the limitations of the compiler 
 (see Section \ref{sec:limitations}), need to be respected.
-
 
 For the execution of the instructions a second struct called \lstinline{ExecuteInstr} is defined. 
 This struct fetches the instruction based on the program counter and the program. Then
@@ -24,6 +26,12 @@ updated based on the result of the execution.
 For the execution there is a third struct called \lstinline{InstrImpl} which is
 specialized for all instructions, depending on the instruction the program counter,
 registers and memory is then manipulated in each template specizalization.
+
+The logic used for the execution of instructions is show in Listing \ref{lst:cpu}.
+The struct \lstinline{CpuState} handles the transistion between states. The struct
+\lstinline{ExecuteInstr} fetches the instructions and executes them.
+
+\lstinputlisting[caption={Implementation of the main emulator code}, label={lst:cpu}]{code/cpu.cpp}
 
 \todo[inline]{Register, Memory, PC}
 
