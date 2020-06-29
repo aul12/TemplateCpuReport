@@ -107,7 +107,7 @@ For the size struct the adapted definition is given in Listing \ref{lst:size_con
 The other structs can be adapted analogously.
 \lstinputlisting[caption={Size using concepts}, label={lst:size_concepts}]{code/size_concepts.cpp}
 
-\subsection{Limitations}
+\subsection{Limitations} \label{sec:limitations}
 The C++ standard recommends a maximum supported template instantiation depth of 1024.
 Both GCC and Clang implement this recommendation but can be configured 
 (using the \texttt{-ftemplate-depth} flag) to use different values. But even with
