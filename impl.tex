@@ -16,7 +16,7 @@ accessed directly using indizes, but via an enum class which provides
 more readable names for the registers. The memory is a value list with the same type
 as the registers to avoid problems related to conversions. The size of the memory
 can be configured, depending on the requirements but the limitations of the compiler 
-(see Section \ref{sec:limitations}), need to be respected.
+(see Section \ref{sec:limitations}) need to be respected.
 
 For the execution of the instructions a second struct called \lstinline{ExecuteInstr} is defined. 
 This struct fetches the instruction based on the program counter and the program. Then
@@ -35,15 +35,15 @@ on a Load/Store architecture \cite{mips}. For the full list of instructions refe
 
 For the execution there is a third struct called \lstinline{InstrImpl} which is
 specialized for all instructions, depending on the instruction the program counter,
-registers and memory is then manipulated in each template specizalization.
+registers and memory are then manipulated in each template specizalization.
 
 Listing \ref{lst:add} shows the implementation of the \lstinline{Add} instruction.
 For this the \lstinline{InstrImpl} struct is specialized for the respective type.
-This struct then defines three members. The first member are the registers after the
+This struct then defines three members. The first member is the registers after the
 instruction is executed. For the execution first the two operands are fetched using
 \lstinline{GetVal}, then the values are summed up and the result is stored into a
 register using \lstinline{SetVal}. The member containing the next programm counter
-is simply calculated by incrementing the program counter by one. The memory is not
+is calculated by incrementing the program counter by one. The memory is not
 changed by the instruction, thus it is the same as before.
 
 \lstinputlisting[caption={Implementation of the \lstinline{Add} instruction},label={lst:add}]{code/add.cpp}
@@ -62,7 +62,7 @@ this instruction copies a value from a register into the memory at an address th
 read from a register.
 In the implementation the registers are not changed and the program counter is incremented
 by one. The memory is changed: first the value to store and the address at which to write
-are fetched from the registers. Then the value is written at the address.
+are fetched from the registers. Then the value to store is written to the respective address in memory.
 
 \lstinputlisting[caption={Implementation of the \lstinline{Store} instruction}, label={lst:store}]{code/store.cpp}
 
@@ -86,7 +86,7 @@ and for the implementation of a Turing machine can be found in the file \texttt{
 For more complex programs it is important to be able to debug the program. For this
 a debugging mechanism has been implemented in the CPU. When using the struct 
 \lstinline{CpuDebug} instead of the normal \lstinline{Cpu} struct a second argument
-can be specified. This argument is the number of instructions to run, once the number
+can be specified. This argument is the number of instructions to run. Once the number
 of instructions have been executed the execution stops and the current registers and
 memory is returned identical to a normal termination. Additionally the \lstinline{is_breakpoint} member of the result is set to \lstinline{true}.
 

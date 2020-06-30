@@ -1,10 +1,11 @@
 %2. Wie bin ich generell da ran gegangen? Was für Konzepte habe ich mir überlegt, welche Strukturen, patterns...
 \subsection{Template Specialization}
 Metaprogramming in C++ is primarily based on the concept of template-specializiation: for a specific template instantiation
-a conrete implementation of the class or function can be given. This makes it possible to implement control structures
+a concrete implementation of the class or function can be given. This makes it possible to implement control structures
 using the type system. 
 
-Listing \ref{lst:template_specialization} implements a logical not using structs-template with specialization. This is just used as an example, the logical not operator "\lstinline{!}" could be used as well instead of defining a struct.
+Listing \ref{lst:template_specialization} implements a logical not using a struct template with specialization. 
+This is just used as an example, the logical not operator "\lstinline{!}" could be used as well instead of defining a struct.
 
 \lstinputlisting[caption={Template specialization}, label=lst:template_specialization]{code/template_specialization.cpp}
 
@@ -30,7 +31,7 @@ compile time, thus a different implementation of a sequential container had to b
 
 The definition of the list is similar to a typical singly linked list definition in normal run-time C++. Every
 element consists of a value and the next element, for the last element the next element is of type \lstinline{ListEnd}.
-Listing \ref{lst:typelist} is the definition of the type list, that is a list in which every element is a type, not
+Listing \ref{lst:typelist} is the definition of an element for a type list, that is a list in which every element is a type, not
 a value. This type of list is used for the program of the CPU emulator, as the instructions are types not values.
 
 \lstinputlisting[caption={Type List}, label={lst:typelist}]{code/type_list.cpp}
@@ -47,14 +48,14 @@ functions behave during run time.
 
 The first struct, and the simplest to understand is the \lstinline{Size} struct, this
 struct has a member \lstinline{val} which returns the length of the list, similar to 
-\lstinline{std::size} for STL containers. The implementation is based on recursively 
+\lstinline{std::size} for STL containers \cite{stdsize}. The implementation is based on recursively 
 walking the list until next is of type \lstinline{ListEnd}. The implementation is given
 in Listing \ref{lst:size}.
 
 \lstinputlisting[caption=Size, label={lst:size}]{code/size.cpp}
 
 The second important struct for handling type lists is the \lstinline{GetType} struct,
-this struct can be used to get the type at a an index. Based on the \lstinline{GetType}
+this struct can be used to get the type at an index. Based on the \lstinline{GetType}
 struct there is also a \lstinline{GetVal} struct for getting the value at an index of
 a value list. The \lstinline{GetType} struct defines type which contains the type
 at the given index. The implementation, given in Listing \ref{lst:get}, 
@@ -73,13 +74,12 @@ type at this position is then replaced by the new type.
 
 \subsection{Concepts}
 In the struct definitions above many of the template type arguments can not be arbitrary
-but are required to be of another template class or fullfil other criteria. In pre C++20
-such limitations would be enforced by using type traits and the substitution failure is 
-not an error (SFINAE) pattern.
-Starting with C++20 there a new mechanism for defining type traits is added: concepts \cite{concepts}.
-While concepts do not provide features more features than SFINAE
-they make the syntax more readable and shorter; additionally they enable the compiler to
-generate better error messages.
+but are required to be of another template class or fulfill other criteria. In pre C++20
+such limitations would be enforced by using type traits and the "substitution failure is 
+not an error" (SFINAE) pattern.
+Starting with C++20 a new mechanism for defining type traits is added: concepts \cite{concepts}.
+While concepts do not provide more features than SFINAE they make the syntax more readable and shorter; 
+additionally they enable the compiler to generate better error messages.
 
 The complete implementation of the CPU emulator is based on templates, thus it is especially important to be able to guarantee strong typing, even during the compile time. For this
 concepts have been widely used for the implementation of the emulator.
@@ -87,11 +87,11 @@ concepts have been widely used for the implementation of the emulator.
 Especially when working with compile time lists the added type safety of concepts is
 beneficial. Consider the implemetation of \lstinline{Size} (Listing \ref{lst:size}).
 If the template argument is not either a template instantiation of a type list or 
-\lstinline{ListEnd} the compiler will throw a error as \lstinline{T::next} is not
+\lstinline{ListEnd} the compiler will throw an error as \lstinline{T::next} is not
 defined. From this error it is not directly obvious that the problem is the wrong
 argument. To enable the usage of concepts for type list first the relevant concepts
 need to be defined. The most important concept is the \lstinline{type_list} concept,
-it defines wheter an type is a valid type list.
+it defines whether a type is a valid type list.
 
 The implementation is given in Listing \ref{lst:concept}: first a struct template with
 a single member is defined. The member is only true if the argument is a valid type list.
@@ -100,9 +100,9 @@ This struct is then used for the definition of the concept.
 \lstinputlisting[caption={Implementation of a concept}, label={lst:concept}]{code/concepts.cpp}
 
 The name of the concept can then be used instead of the \lstinline{typename} keyword 
-in the template parameter declaration to  signal that the type has to fullfil the concept. 
+in the template parameter declaration to  signal that the type has to fulfill the concept. 
 
-For the size struct the adapted definition is given in Listing \ref{lst:size_concepts}. The compiler is know able to directly print an error if a type does not fullfil the concept.
+For the size struct the adapted definition is given in Listing \ref{lst:size_concepts}. The compiler is know able to directly print an error if a type does not fulfill the concept.
 The other structs can be adapted analogously.
 \lstinputlisting[caption={Size using concepts}, label={lst:size_concepts}]{code/size_concepts.cpp}
 
@@ -110,7 +110,7 @@ The other structs can be adapted analogously.
 The C++ standard recommends a maximum supported template instantiation depth of 1024.
 Both GCC and Clang implement this recommendation but can be configured 
 (using the \texttt{-ftemplate-depth} flag) to use different values. But even with
-this flag the practiacal limitations is at about 10000, with this maximum depth
+this flag the practical limitation is at about 10000, with this maximum depth
 GCC requires approximatly 40GB of memory when compiling a list of said length, Clang will
 crash without a proper error message.
 
