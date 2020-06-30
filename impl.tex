@@ -1,6 +1,6 @@
 %3. Dann natürlich die Lösung vorstellen, gerne auch interessante Code-Schnipsel zeigen
 
-\subsection{CPU State}
+\subsection{Execution of Code}
 For the emulation the most important data structure is the CPU state. The state consists of the program, the registers,
 the memory and the program counter among others. During each CPU state the next state is determined based on the 
 current state and the current instruction.
@@ -23,21 +23,47 @@ This struct fetches the instruction based on the program counter and the program
 the instruction is executed and the program counter, the registers and the memory is
 updated based on the result of the execution.
 
+The logic used for the execution of instructions is show in Listing \ref{lst:cpu}.
+
+\lstinputlisting[caption={Implementation of the main emulator code}, label={lst:cpu}]{code/cpu.cpp}
+
+\subsection{Instructions}
+
+For programming the CPU emulator a total of 28 instructions have been implemented. They consist of arithmetic and logic
+operations, load and store operations and jumps, both conditional and unconditional. The instructions are primarily 
+influenced by the MIPS architecture \todo{cite}, similar to MIPS the instructions are based
+on a Load/Store architecture \todo{cite}. For the full list of instructions refer to the \texttt{README.md} file provided with the code. 
+
 For the execution there is a third struct called \lstinline{InstrImpl} which is
 specialized for all instructions, depending on the instruction the program counter,
 registers and memory is then manipulated in each template specizalization.
 
-The logic used for the execution of instructions is show in Listing \ref{lst:cpu}.
-The struct \lstinline{CpuState} handles the transistion between states. The struct
-\lstinline{ExecuteInstr} fetches the instructions and executes them.
+Listing \ref{lst:add} shows the implementation of the \lstinline{Add} instruction.
+For this the \lstinline{InstrImpl} struct is specialized for the respective type.
+This struct then defines three members. The first member are the registers after the
+instruction is executed. For the execution first the two operands are fetched using
+\lstinline{GetVal}, then the values are summed up and the result is stored into a
+register using \lstinline{SetVal}. The member containing the next programm counter
+is simply calculated by incrementing the program counter by one. The memory is not
+changed by the instruction, thus it is the same as before.
 
-\lstinputlisting[caption={Implementation of the main emulator code}, label={lst:cpu}]{code/cpu.cpp}
+\lstinputlisting[caption={Implementation of the \lstinline{Add} instruction},label={lst:add}]{code/add.cpp}
 
-\todo[inline]{Register, Memory, PC}
+Listing \ref{lst:jmp} shows the implementation of the \lstinline{Jump} instruction.
+Similar to the \lstinline{Add} instruction this is achieved by specializing the 
+\lstinline{InstrImpl} struct. In the implementation both the registers and the memory
+are not changed. Only the program counter is changed, for this the address is fetched
+from the respective register using \lstinline{GetVal} and then the program counter is
+set to this value.
 
-\todo[inline]{Instructions}
+\lstinputlisting[caption={Implementation of the \lstinline{Jump} instruction},label={lst:jmp}]{code/jmp.cpp}
+
+\todo[inline]{Load/Store?}
+
+\subsection{Definining and Running a Program}
 
 
 \todo[inline]{Printing results}
 
+\subsection{Debugger}
 \todo[inline]{Debugger}
