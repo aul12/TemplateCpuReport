@@ -28,7 +28,6 @@ The logic used for the execution of instructions is show in Listing \ref{lst:cpu
 \lstinputlisting[caption={Implementation of the main emulator code}, label={lst:cpu}]{code/cpu.cpp}
 
 \subsection{Instructions}
-
 For programming the CPU emulator a total of 28 instructions have been implemented. They consist of arithmetic and logic
 operations, load and store operations and jumps, both conditional and unconditional. The instructions are primarily 
 influenced by the MIPS architecture \todo{cite}, similar to MIPS the instructions are based
@@ -61,9 +60,26 @@ set to this value.
 \todo[inline]{Load/Store?}
 
 \subsection{Definining and Running a Program}
+The program is a list of instruction types and can be defined using the 
+\lstinline{DeclareProgram} type which accepts a variadic list of instructions. 
+This type can then be given as a template argument to the \lstinline{CPU} struct, which will start the execution by defining
+the initial CPU state. The result of the execution is the type \lstinline{run} defined
+by the CPU. It is a struct containing the registers, the memory and the current program
+counter. For printing these fields there is the \lstinline{printer} struct which
+provides functions for printing the values. These functions are the only code that is
+executed during runtime, all other code is executed strictly during compile time.
 
+Given a program \lstinline{my_program} Listing \ref{lst:main} shows how a program can be
+executed and the results can be printed. Example programs for calculating fibonacci numbers
+and for the implementation of a Turing machine can be found in the file \texttt{programs.hpp} provided with the code.
 
-\todo[inline]{Printing results}
+\lstinputlisting[caption={Code for executing a program and printing the results},label={lst:main}]{code/main.cpp}
 
 \subsection{Debugger}
-\todo[inline]{Debugger}
+For more complex programs it is important to be able to debug the program. For this
+a debugging mechanism has been implemented in the CPU. When using the struct 
+\lstinline{CpuDebug} instead of the normal \lstinline{Cpu} struct a second argument
+can be specified. This argument is the number of instructions to run, once the number
+of instructions have been executed the execution stops and the current registers and
+memory is returned identical to a normal termination. Additionally the \lstinline{is_breakpoint} member of the result is set to \lstinline{true}.
+

@@ -1,1 +1,30 @@
 %4. Ausblick, was könnte man erweitern (warum ist das idealerweise einfach? => Weil dein code halt so krass gut aufgebaut ist...), oder auch anders machen?
+
+\todo[inline]{Fazit: Applications}
+
+This report explained how a CPU emulator can be implemented using metaprogramming techniques.
+The necessary basics, such as compile time data types and concepts, have been explained 
+in the first section. The second section explained the structure of the emulator and how
+programs are executed by the emulator. Additionally a program for emulating a turing
+machine has been implemented for the CPU emulator to prove that the emulator, and thus
+C++ metaprogramming is turing complete. It is important to consider that while in theory
+arbitrary programs can be executed in reality the programs are limited by the compiler.
+
+\subsection{Future Improvements}
+If necessary more instructions can be added easily in the future. A new instructions
+requires the type declaration and the specialization of the \lstinline{InstrImpl}
+struct with the implementation of the instruction. The current instruction set
+is sufficient to implement all programs, but new instructions might reduce the
+complexity of programs significantly.
+
+Another improvement which would improve the usability of the emulator is the implementation
+of input and output operations. Currently there is no easy way of doing this, there are
+similar programs which implement I/O operations by recompiling the program for
+every input \todo{src: https://jguegant.github.io/blogs/tech/meta-crush-saga.html,
+https://github.com/Drahflow/compile-time-adventures} which could be implemented for
+emulator but would require additional runtime code for recompiling the program.
+
+Another usability improvement for the emulator, especially when writing large programs,
+would be the addition of labels, like they are used in most assembly dialects.
+Such as labels will be implemented in the future as part of an assembler, but are
+currently not supported as they are not a feature provided by a CPU but by an assembler.
