@@ -15,18 +15,18 @@
 %Programm um eine ordentliche Dokumentation erweitern und eine Turing
 %Maschine als Program für den CPU-Emulator implementieren.
 
-In comparison to most other widely adopted languages the C++ language provides a very expressive type system\todo{cite}. Custom
+In comparison to most other widely adopted languages the C++ language provides a very expressive type system \cite{concepts05}. Custom
 types (\lstinline{structs} and \lstinline{classes}) do not only consist of other types but can also depend on other
-types and values. This yields types which can fundamentaly change their behaviour based on other types\todo{cite std}. As a result
+types and values. This yields types which can fundamentaly change their behaviour based on other types \cite[Chapter~13.3]{std}. As a result
 it is possible to implement algorithms which only consist of the type system and dependent types, this concept is known
 as metaprogramming. In the case of C++ this metaprogramming is turing complete, this means that all algorithms than
-can be computed can also be computed by the C++ type system \todo{cite turing complete}.
+can be computed can also be computed by the C++ type system \cite{TuringComputability}.
 
 In this report the implementation of a CPU emulator using only the C++ type system is presented. This emulator
 accepts programs, which are custom types that behave like instructions, and executes these during the compilation of
 the program. These programs can be, in theory, arbitrary and thus all computable algorithms can be implemented. As a
 demonstration of the Turing completeness a Turing machine will be implemented, the Turing machine is a concept which
-is used for the definition of Turing computability\todo{cite turing}.
+is used for the definition of Turing computability \cite{Turing1936}.
 
 This report is structured into three parts: first the necessary concepts and data types for implementing more complex 
 programs using metaprogramming are introduced. In the second part the implementation of the CPU emulator is described

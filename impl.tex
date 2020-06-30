@@ -30,8 +30,8 @@ The logic used for the execution of instructions is show in Listing \ref{lst:cpu
 \subsection{Instructions}
 For programming the CPU emulator a total of 28 instructions have been implemented. They consist of arithmetic and logic
 operations, load and store operations and jumps, both conditional and unconditional. The instructions are primarily 
-influenced by the MIPS architecture \todo{cite}, similar to MIPS the instructions are based
-on a Load/Store architecture \todo{cite}. For the full list of instructions refer to the \texttt{README.md} file provided with the code. 
+influenced by the MIPS architecture, similar to MIPS the instructions are based
+on a Load/Store architecture \cite{mips}. For the full list of instructions refer to the \texttt{README.md} file provided with the code. 
 
 For the execution there is a third struct called \lstinline{InstrImpl} which is
 specialized for all instructions, depending on the instruction the program counter,
@@ -57,7 +57,14 @@ set to this value.
 
 \lstinputlisting[caption={Implementation of the \lstinline{Jump} instruction},label={lst:jmp}]{code/jmp.cpp}
 
-\todo[inline]{Load/Store?}
+Listing \ref{lst:store} shows the implementation of the \lstinline{Store} instruction,
+this instruction copies a value from a register into the memory at an address that is
+read from a register.
+In the implementation the registers are not changed and the program counter is incremented
+by one. The memory is changed: first the value to store and the address at which to write
+are fetched from the registers. Then the value is written at the address.
+
+\lstinputlisting[caption={Implementation of the \lstinline{Store} instruction}, label={lst:store}]{code/store.cpp}
 
 \subsection{Definining and Running a Program}
 The program is a list of instruction types and can be defined using the 

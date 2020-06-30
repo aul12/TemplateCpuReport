@@ -4,8 +4,7 @@ Metaprogramming in C++ is primarily based on the concept of template-specializia
 a conrete implementation of the class or function can be given. This makes it possible to implement control structures
 using the type system. 
 
-Listing \ref{lst:template_specialization} implements a logical not using structs-template with specialization.
-\todo{Disclaimer ! geht auch}
+Listing \ref{lst:template_specialization} implements a logical not using structs-template with specialization. This is just used as an example, the logical not operator "\lstinline{!}" could be used as well instead of defining a struct.
 
 \lstinputlisting[caption={Template specialization}, label=lst:template_specialization]{code/template_specialization.cpp}
 
@@ -77,7 +76,7 @@ In the struct definitions above many of the template type arguments can not be a
 but are required to be of another template class or fullfil other criteria. In pre C++20
 such limitations would be enforced by using type traits and the substitution failure is 
 not an error (SFINAE) pattern.
-Starting with C++20 there a new mechanism for defining type traits is added: concepts \todo{cite}.
+Starting with C++20 there a new mechanism for defining type traits is added: concepts \cite{concepts}.
 While concepts do not provide features more features than SFINAE
 they make the syntax more readable and shorter; additionally they enable the compiler to
 generate better error messages.

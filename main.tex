@@ -40,15 +40,16 @@ BCOR15mm               % Bindekorrektur
 
 \usepackage{listings}
 \lstset{language=C++,
-        basicstyle=\ttfamily,
-        keywordstyle=\color{blue}\ttfamily,
-        stringstyle=\color{red}\ttfamily,
-        commentstyle=\color{magenta}\ttfamily,
+        numberstyle=\small,
+        basicstyle=\small,
+        keywordstyle=\color{blue},
+        stringstyle=\color{red},
+        commentstyle=\color{magenta},
         morecomment=[l][\color{green}]{\#},
         breaklines=true,
         numbers=left,
         stepnumber=1,
-        morekeywords={constexpr, concept}
+        morekeywords={constexpr, concept},
 }
 
 
@@ -154,7 +155,7 @@ along with this program.  If not, see \href{https://www.gnu.org/licenses}{https:
 \section{Problem Statement}
 \input{problem.tex}
 
-\section{Concepts}
+\section{Foundamentals}
 \input{concepts.tex}
 
 \section{Implementation}
@@ -165,12 +166,6 @@ along with this program.  If not, see \href{https://www.gnu.org/licenses}{https:
 
 \newpage
 \appendix
-
-\nocite{Knappen2009}
-\nocite{Mittelbach2005}
-\nocite{Schlosser2014}
-\nocite{Sturm2012}
-\nocite{Voss2010}
 
 \printbibliography
 
