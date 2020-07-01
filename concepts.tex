@@ -60,6 +60,9 @@ struct there is also a \lstinline{GetVal} struct for getting the value at an ind
 a value list. The \lstinline{GetType} struct defines type which contains the type
 at the given index. The implementation, given in Listing \ref{lst:get}, 
 is recursive, similar to the implementation of \lstinline{Size}.
+The recursive implementation fails if the index is larger than the size of the list, 
+thus a \lstinline{static_assert} has been added for error checking.
+
 
 \lstinputlisting[caption={Get Type}, label={lst:get}]{code/get.cpp}
 
@@ -68,7 +71,8 @@ a given index. As types are immutable and can not be changed once created this s
 does not change the original type but creates a new type. The implementation, given
 in Listing \ref{lst:set}, is once again recursive: 
 the struct recursively walks the list until it reaches the given index. The
-type at this position is then replaced by the new type. 
+type at this position is then replaced by the new type. Similar to above error
+checking is performed using a \lstinline{static_assert}.
 
 \lstinputlisting[caption={Set Type}, label={lst:set}]{code/set.cpp}
 
