@@ -1,5 +1,5 @@
 template<typename T, typename next_>
-struct Type {
+struct TypeListElem {
     using elem = T;
     using next = next_;
 };

@@ -1,10 +1,10 @@
-template<typename List, std::size_t index>
+template<typename list, std::size_t index>
 struct GetType {
-    static_assert(index < Size<List>::val, "GetType out of bounds");
-    using type = typename GetType<typename List::next, index - 1>::type;
+    static_assert(index < Size<list>::val, "GetType out of bounds");
+    using type = typename GetType<typename list::next, index - 1>::type;
 };
 
-template<typename List>
-struct GetType<List, 0> {
-    using type = typename List::elem;
+template<typename list>
+struct GetType<list, 0> {
+    using type = typename list::elem;
 };

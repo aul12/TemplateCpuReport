@@ -1,11 +1,10 @@
-template<typename T, typename List, std::size_t index>
+template<typename T, typename list, std::size_t index>
 struct SetType {
-    static_assert(index < Size<List>::val, "SetType out of bounds");
-    using type = Type<typename List::elem, typename SetType<T, typename List::next, index - 1>::type>;
+    static_assert(index < Size<list>::val, "SetType out of bounds");
+    using type = TypeListElem<typename list::elem, typename SetType<T, typename list::next, index - 1>::type>;
 };
 
-template<typename T, typename List>
-struct SetType<T, List, 0> {
-    using type = Type<T, typename List::next>;
+template<typename T, typename list>
+struct SetType<T, list, 0> {
+    using type = TypeListElem<T, typename l::next>;
 };
-

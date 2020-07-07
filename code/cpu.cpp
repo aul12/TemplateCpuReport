@@ -1,8 +1,8 @@
 template<Program program, std::size_t old_pc, Registers registers, Memory memory>
 struct ExecuteInstr {
-    static constexpr auto PC = InstrImpl<typename GetType<program, old_pc>::type, registers, memory, old_pc>::PC;
-    using Reg = typename InstrImpl<typename GetType<program, old_pc>::type, registers, memory, old_pc>::Reg;
-    using Mem = typename InstrImpl<typename GetType<program, old_pc>::type, registers, memory, old_pc>::Mem;
+    static constexpr auto pc = InstrImpl<typename GetType<program, old_pc>::type, registers, memory, old_pc>::pc;
+    using reg = typename InstrImpl<typename GetType<program, old_pc>::type, registers, memory, old_pc>::reg;
+    using mem = typename InstrImpl<typename GetType<program, old_pc>::type, registers, memory, old_pc>::mem;
 };
 
 template<Program program, std::size_t size, std::size_t PC, Registers registers, Memory memory>
@@ -10,9 +10,9 @@ struct CpuState {
     using val = typename CpuState<
                             program,
                             size,
-                            ExecuteInstr<program, PC, registers, memory>::PC,
-                            typename ExecuteInstr<program, PC, registers, memory>::Reg,
-                            typename ExecuteInstr<program, PC, registers, memory>::Mem
+                            ExecuteInstr<program, PC, registers, memory>::pc,
+                            typename ExecuteInstr<program, PC, registers, memory>::reg,
+                            typename ExecuteInstr<program, PC, registers, memory>::mem
                         >::val;
 };
 

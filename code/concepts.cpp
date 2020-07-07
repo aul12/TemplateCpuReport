@@ -4,7 +4,7 @@ struct IsTypeList {
 };
 
 template<typename T, typename next>
-struct IsTypeList<Type<T, next>> {
+struct IsTypeList<TypeListElem<T, next>> {
     static constexpr bool val = true;
 };
 
@@ -14,4 +14,5 @@ struct IsTypeList<ListEnd> {
 };
 
 template<typename T>
-concept type_list = IsTypeList<T>::val;
+concept TypeList = IsTypeList<T>::val;
+

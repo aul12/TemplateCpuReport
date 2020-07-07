@@ -1,6 +1,6 @@
-template<type_list List>
+template<TypeList list>
 struct Size {
-    static constexpr std::size_t val = Size<typename List::next>::val + 1;
+    static constexpr std::size_t val = Size<typename list::next>::val + 1;
 };
 
 template<>

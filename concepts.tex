@@ -27,12 +27,12 @@ As the STL does not provide any data types suitable for compile time manipulatio
 
 The implementation of the sequential container is based on singly linked list. 
 This not the obvious choice when implementing sequential containers but array manipulation is not possible during 
-compile time, thus a different implementation of a sequential container had to be chosen.
+compile time, thus a different implementation had to be chosen.
 
 The definition of the list is similar to a typical singly linked list definition in normal run-time C++. Every
 element consists of a value and the next element, for the last element the next element is of type \lstinline{ListEnd}.
 Listing \ref{lst:typelist} is the definition of an element for a type list, that is a list in which every element is a type, not
-a value. This type of list is used for the program of the CPU emulator, as the instructions are types not values.
+a value. This type of list is used for the program of the CPU emulator, as the instructions are distinct types.
 
 \lstinputlisting[caption={Type List}, label={lst:typelist}]{code/type_list.cpp}
 
@@ -57,7 +57,7 @@ in Listing \ref{lst:size}.
 The second important struct for handling type lists is the \lstinline{GetType} struct,
 this struct can be used to get the type at an index. Based on the \lstinline{GetType}
 struct there is also a \lstinline{GetVal} struct for getting the value at an index of
-a value list. The \lstinline{GetType} struct defines type which contains the type
+a value list. The \lstinline{GetType} struct defines the member type which contains the type
 at the given index. The implementation, given in Listing \ref{lst:get}, 
 is recursive, similar to the implementation of \lstinline{Size}.
 The recursive implementation fails if the index is larger than the size of the list, 
@@ -91,10 +91,10 @@ concepts have been widely used for the implementation of the emulator.
 Especially when working with compile time lists the added type safety of concepts is
 beneficial. Consider the implemetation of \lstinline{Size} (Listing \ref{lst:size}).
 If the template argument is not either a template instantiation of a type list or 
-\lstinline{ListEnd} the compiler will throw an error as \lstinline{T::next} is not
+\lstinline{ListEnd} the compiler will throw an error as \lstinline{list::next} is not
 defined. From this error it is not directly obvious that the problem is the wrong
-argument. To enable the usage of concepts for type list first the relevant concepts
-need to be defined. The most important concept is the \lstinline{type_list} concept,
+argument. To enable the usage of concepts for type lists first the relevant concepts
+need to be defined. The most important concept is the \lstinline{TypeList} concept,
 it defines whether a type is a valid type list.
 
 The implementation is given in Listing \ref{lst:concept}: first a struct template with
@@ -106,7 +106,8 @@ This struct is then used for the definition of the concept.
 The name of the concept can then be used instead of the \lstinline{typename} keyword 
 in the template parameter declaration to  signal that the type has to fulfill the concept. 
 
-For the size struct the adapted definition is given in Listing \ref{lst:size_concepts}. The compiler is know able to directly print an error if a type does not fulfill the concept.
+For the size struct the adapted definition is given in Listing \ref{lst:size_concepts}. 
+The compiler is now able to directly print an error if a type does not fulfill the concept.
 The other structs can be adapted analogously.
 \lstinputlisting[caption={Size using concepts}, label={lst:size_concepts}]{code/size_concepts.cpp}
 
