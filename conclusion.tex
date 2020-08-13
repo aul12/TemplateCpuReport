@@ -9,6 +9,12 @@ C++ metaprogramming is Turing complete. It is important to consider that while i
 arbitrary programs can be executed in reality the programs are limited by the compiler.
 
 \subsection{Future Improvements}
+The primariy problem that the emulator faces at the moment are the limitations in both program and memory size.
+These limitations are a direct result of the data structure that has been used: a singly linked list. The required 
+template depth of the list increases linearly with the size of the list. By using a different data structure with
+lower template depth complexity, such as a binary tree, much larger programs (in the order of $2^{1024}$ instructions)
+could be implemented.
+
 If necessary more instructions can be added easily in the future. A new instruction
 requires the type declaration and the specialization of the \lstinline{InstrImpl}
 struct with the implementation of the instruction. The current instruction set
